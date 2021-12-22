@@ -113,7 +113,6 @@ const config = [
               removeImport: true,
             },
           ],
-          "babel-plugin-lodash",
           [
             "babel-plugin-import",
             {
