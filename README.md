@@ -8,7 +8,7 @@ A color picker built on top of Material UI. Two picker options available:
 ## Installation
 
 ```
-npm install --save @react-mui-color
+npm install --save react-mui-color
 ```
 
 The following packages are peer dependencies and must be installed in your project for this package to work.
@@ -39,7 +39,7 @@ export default function MyColorPicker(props) {
     <ColorPicker
       variant="predefined"
       color={color}
-      colors={['#000000' '#ffffff']}
+      colors={["#000000", "#ffffff"]}
       onChange={handleFontColorChange}
       sx={{
         "& #cp-predefined-root": {
