@@ -74,7 +74,7 @@ const config = [
       {
         file: `dist/${pkg.name}.min.js`,
         format: "umd",
-        name: "Editor",
+        name: "ColorPicker",
         exports: "named",
         sourcemap: true,
         globals: {

@@ -25,7 +25,7 @@ The following packages are peer dependencies and must be installed in your proje
 import React from "react";
 import { ColorPicker } from "@jeremyling/react-mui-color";
 
-export default function RichTextEditor(props) {
+export default function MyColorPicker(props) {
   const [color, setColor] = useState("#ffffff");
 
   const handleFontColorChange = (color, keepOpen = false) => {
