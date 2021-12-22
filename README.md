@@ -23,7 +23,7 @@ The following packages are peer dependencies and must be installed in your proje
 
 ```jsx
 import React from "react";
-import { ColorPicker } from "@jeremyling/react-mui-color";
+import { ColorPicker } from "react-mui-color";
 
 export default function MyColorPicker(props) {
   const [color, setColor] = useState("#ffffff");
