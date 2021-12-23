@@ -1,8 +1,14 @@
 import { Box, Button, Paper } from "@mui/material";
 import React from "react";
-import PropTypes from "prop-types";
+import { Color } from "../../Interfaces/Color";
 
-export default function MaterialOptions(props) {
+interface MaterialOptionsProps {
+  colors: Array<string>;
+  parsedColor: Color;
+  onSelect(color: string, keepOpen: boolean): void;
+};
+
+export const MaterialOptions = (props: MaterialOptionsProps) => {
   const { colors, parsedColor, onSelect } = props;
 
   return (
@@ -26,9 +32,9 @@ export default function MaterialOptions(props) {
     >
       {colors.map((color) => (
         <Button
-          classname="cp-predefined-button"
+          className="cp-predefined-button"
           key={color}
-          onClick={(event) => onSelect(color)}
+          onClick={(event) => onSelect(color, false)}
           sx={{
             minWidth: "auto",
             p: "5px",
@@ -39,7 +45,7 @@ export default function MaterialOptions(props) {
           }}
         >
           <Paper
-            classname="cp-predefined-color"
+            className="cp-predefined-color"
             elevation={1}
             sx={{
               width: "25px",
@@ -53,9 +59,3 @@ export default function MaterialOptions(props) {
     </Box>
   );
 }
-
-MaterialOptions.propTypes = {
-  colors: PropTypes.array,
-  parsedColor: PropTypes.object,
-  onSelect: PropTypes.func,
-};

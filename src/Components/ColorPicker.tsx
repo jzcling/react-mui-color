@@ -16,11 +16,23 @@ import {
   hsvToRgb,
   parseColor,
 } from "../Utils/ColorUtils";
-import FreeSelector from "./Options/FreeSelector";
-import MaterialOptions from "./Options/MaterialOptions";
-import PropTypes from "prop-types";
+import { FreeSelector } from "./Options/FreeSelector";
+import { MaterialOptions } from "./Options/MaterialOptions";
 
-export default function ColorPicker(props) {
+export enum ColorPickerVariant {
+  Predefined = "predefined",
+  Free = "free",
+}
+
+interface ColorPickerProps {
+  color: string;
+  colors: Array<string>;
+  onChange(color: string, keepOpen: boolean): void;
+  variant: ColorPickerVariant;
+  sx: Object;
+};
+
+export const ColorPicker = (props: ColorPickerProps) => {
   const { color, colors, onChange, variant, sx } = props;
 
   const parsedColor = useMemo(() => parseColor(color), [color]);
@@ -174,15 +186,7 @@ export default function ColorPicker(props) {
 ColorPicker.defaultProps = {
   color: defaultColor,
   colors: defaultColors,
-  onChange: (color, keepOpen) => {},
+  onChange: (color: string, keepOpen: boolean) => {},
   variant: "predefined",
   sx: {},
-};
-
-ColorPicker.propTypes = {
-  color: PropTypes.string,
-  colors: PropTypes.array,
-  onChange: PropTypes.func,
-  variant: PropTypes.oneOf(["predefined", "free"]),
-  sx: PropTypes.object,
 };

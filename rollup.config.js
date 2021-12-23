@@ -8,10 +8,12 @@ import analyze from "rollup-plugin-analyzer";
 import pkg from "./package.json";
 import { sizeSnapshot } from "rollup-plugin-size-snapshot";
 import autoExternal from "rollup-plugin-auto-external";
+import typescript from "@rollup/plugin-typescript";
+import dts from "rollup-plugin-dts";
 
 const config = [
   {
-    input: "src/index.js",
+    input: "src/index.ts",
     output: [
       {
         file: pkg.main,
@@ -36,6 +38,7 @@ const config = [
         exclude: ["src/**"],
         include: ["node_modules/**"],
       }),
+      typescript({ tsconfig: "./tsconfig.json" }),
       babel({
         babelHelpers: "runtime",
         exclude: "node_modules/**",
@@ -69,7 +72,7 @@ const config = [
     external: [/@mui\//, /@babel\/runtime/],
   },
   {
-    input: "src/index.js",
+    input: "src/index.ts",
     output: [
       {
         file: `dist/${pkg.name}.min.js`,
@@ -93,6 +96,7 @@ const config = [
         exclude: ["src/**"],
         include: ["node_modules/**"],
       }),
+      typescript({ tsconfig: "./tsconfig.json" }),
       babel({
         babelHelpers: "bundled",
         exclude: "node_modules/**",
@@ -131,6 +135,11 @@ const config = [
       terser(),
     ],
     external: ["react", "react-dom"],
+  },
+  {
+    input: "dist/types/index.d.ts",
+    output: [{ file: "dist/index.d.ts", format: "es" }],
+    plugins: [dts()],
   },
 ];
 

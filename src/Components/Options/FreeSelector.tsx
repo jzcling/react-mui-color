@@ -1,8 +1,16 @@
 import { Box, Stack } from "@mui/material";
-import React from "react";
-import PropTypes from "prop-types";
+import React, { MouseEventHandler } from "react";
+import { Color } from "../../Interfaces/Color";
 
-export default function FreeSelector(props) {
+interface FreeSelectorProps {
+  parsedColor: Color;
+  satCoords: Array<number>;
+  hueCoords: number;
+  handleSaturationChange: MouseEventHandler;
+  handleHueChange: MouseEventHandler;
+};
+
+export const FreeSelector = (props: FreeSelectorProps) => {
   const {
     parsedColor,
     satCoords,
@@ -81,11 +89,3 @@ export default function FreeSelector(props) {
     </Stack>
   );
 }
-
-FreeSelector.propTypes = {
-  parsedColor: PropTypes.object,
-  satCoords: PropTypes.array,
-  hueCoords: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  handleSaturationChange: PropTypes.func,
-  handleHueChange: PropTypes.func,
-};

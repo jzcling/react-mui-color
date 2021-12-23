@@ -13,6 +13,7 @@ import {
   teal,
 } from "@mui/material/colors";
 import { hexToRgb, hslToRgb, rgbToHex } from "@mui/system";
+import { Color, ColorHSL, ColorRGB } from "../Interfaces/Color";
 
 export const defaultColor = "#181d23";
 
@@ -71,10 +72,10 @@ export const defaultColors = [
   orange[100],
 ];
 
-export function parseColor(color) {
-  var hex;
-  var rgb;
-  var hsl;
+export function parseColor(color: string): Color {
+  var hex = "";
+  var rgb = "";
+  var hsl = "";
 
   if (color.slice(0, 1) === "#") {
     hex = color;
@@ -99,7 +100,7 @@ export function parseColor(color) {
   };
 }
 
-export function getSaturationCoordinates(color) {
+export function getSaturationCoordinates(color: Color): [number, number] {
   const { s, v } = rgbToHsv(color.rgb.value);
 
   const x = s;
@@ -108,7 +109,7 @@ export function getSaturationCoordinates(color) {
   return [x, y];
 }
 
-export function getHueCoordinates(color) {
+export function getHueCoordinates(color: Color): number {
   const { h } = color.hsl;
 
   const x = (h / 360) * 100;
@@ -116,7 +117,7 @@ export function getHueCoordinates(color) {
   return x;
 }
 
-export function rgbToHsl(color) {
+export function rgbToHsl(color: string): string {
   var { r, g, b } = getRgb(color);
   r /= 255;
   g /= 255;
@@ -152,7 +153,7 @@ export function rgbToHsl(color) {
   return `hsl(${h}, ${s}%, ${l}%)`;
 }
 
-export function rgbToHsv(color) {
+export function rgbToHsv(color: string): { h: number, s: number, v: number } {
   var { r, g, b } = getRgb(color);
   r /= 255;
   g /= 255;
@@ -174,7 +175,7 @@ export function rgbToHsv(color) {
   return { h, s, v };
 }
 
-export function hsvToRgb(h, s, v) {
+export function hsvToRgb(h: number, s: number, v: number): string {
   s /= 100;
   v /= 100;
 
@@ -192,11 +193,11 @@ export function hsvToRgb(h, s, v) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function getRgb(color) {
+function getRgb(color: string): ColorRGB {
   const matches = /rgb\((\d+),\s?(\d+),\s?(\d+)\)/i.exec(color);
-  const r = matches?.[1] ?? 0;
-  const g = matches?.[2] ?? 0;
-  const b = matches?.[3] ?? 0;
+  const r = Number(matches?.[1] ?? 0);
+  const g = Number(matches?.[2] ?? 0);
+  const b = Number(matches?.[3] ?? 0);
 
   return {
     value: color,
@@ -206,11 +207,11 @@ function getRgb(color) {
   };
 }
 
-function getHsl(color) {
+function getHsl(color: string): ColorHSL {
   const matches = /hsl\((\d+),\s?([\d.]+)%,\s?([\d.]+)%\)/i.exec(color);
-  const h = matches?.[1] ?? 0;
-  const s = matches?.[2] ?? 0;
-  const l = matches?.[3] ?? 0;
+  const h = Number(matches?.[1] ?? 0);
+  const s = Number(matches?.[2] ?? 0);
+  const l = Number(matches?.[3] ?? 0);
 
   return {
     value: color,
@@ -220,7 +221,7 @@ function getHsl(color) {
   };
 }
 
-export function clamp(number, min, max) {
+export function clamp(number: number, min: number, max: number): number {
   if (!max) {
     return Math.max(number, min) === min ? number : min;
   } else if (Math.min(number, min) === number) {
