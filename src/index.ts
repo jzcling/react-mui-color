@@ -1,5 +1,4 @@
-import { ColorPicker } from "./Components/ColorPicker";
+import { ColorPicker, ColorPickerVariant } from "./Components/ColorPicker";
 import { Color } from './Interfaces/Color';
 
-export { ColorPicker };
-export type { Color };
+export { Color, ColorPicker, ColorPickerVariant };
