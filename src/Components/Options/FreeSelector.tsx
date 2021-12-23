@@ -6,8 +6,8 @@ interface FreeSelectorProps {
   parsedColor: Color;
   satCoords: Array<number>;
   hueCoords: number;
-  handleSaturationChange: MouseEventHandler;
-  handleHueChange: MouseEventHandler;
+  onSaturationChange: MouseEventHandler;
+  onHueChange: MouseEventHandler;
 };
 
 export const FreeSelector = (props: FreeSelectorProps) => {
@@ -15,8 +15,8 @@ export const FreeSelector = (props: FreeSelectorProps) => {
     parsedColor,
     satCoords,
     hueCoords,
-    handleSaturationChange,
-    handleHueChange,
+    onSaturationChange,
+    onHueChange,
   } = props;
 
   return (
@@ -42,7 +42,7 @@ export const FreeSelector = (props: FreeSelectorProps) => {
           position: "relative",
           cursor: "crosshair",
         }}
-        onClick={handleSaturationChange}
+        onClick={onSaturationChange}
       >
         <Box
           id="cp-saturation-indicator"
@@ -70,7 +70,7 @@ export const FreeSelector = (props: FreeSelectorProps) => {
           position: "relative",
           cursor: "crosshair",
         }}
-        onClick={handleHueChange}
+        onClick={onHueChange}
       >
         <Box
           id="cp-hue-indicator"

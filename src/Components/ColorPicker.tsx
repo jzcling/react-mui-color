@@ -121,8 +121,8 @@ export const ColorPicker = (props: ColorPickerProps) => {
           parsedColor={parsedColor}
           satCoords={satCoords}
           hueCoords={hueCoords}
-          handleSaturationChange={handleSaturationChange}
-          handleHueChange={handleHueChange}
+          onSaturationChange={handleSaturationChange}
+          onHueChange={handleHueChange}
         />
       )}
 

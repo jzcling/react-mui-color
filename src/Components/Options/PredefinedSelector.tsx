@@ -3,13 +3,13 @@ import React from "react";
 import { Color } from "../../Interfaces/Color";
 
 interface PredefinedSelectorProps {
-  colors: Array<string>;
   parsedColor: Color;
+  colors: Array<string>;
   onSelect(color: string, keepOpen: boolean): void;
 };
 
 export const PredefinedSelector = (props: PredefinedSelectorProps) => {
-  const { colors, parsedColor, onSelect } = props;
+  const { parsedColor, colors, onSelect } = props;
 
   return (
     <Box
