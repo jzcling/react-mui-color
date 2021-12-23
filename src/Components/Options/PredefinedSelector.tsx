@@ -2,13 +2,13 @@ import { Box, Button, Paper } from "@mui/material";
 import React from "react";
 import { Color } from "../../Interfaces/Color";
 
-interface MaterialOptionsProps {
+interface PredefinedSelectorProps {
   colors: Array<string>;
   parsedColor: Color;
   onSelect(color: string, keepOpen: boolean): void;
 };
 
-export const MaterialOptions = (props: MaterialOptionsProps) => {
+export const PredefinedSelector = (props: PredefinedSelectorProps) => {
   const { colors, parsedColor, onSelect } = props;
 
   return (

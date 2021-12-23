@@ -17,7 +17,7 @@ import {
   parseColor,
 } from "../Utils/ColorUtils";
 import { FreeSelector } from "./Options/FreeSelector";
-import { MaterialOptions } from "./Options/MaterialOptions";
+import { PredefinedSelector } from "./Options/PredefinedSelector";
 
 export enum ColorPickerVariant {
   Predefined = "predefined",
@@ -111,7 +111,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
       }}
     >
       {variant === "predefined" ? (
-        <MaterialOptions
+        <PredefinedSelector
           colors={colors}
           parsedColor={parsedColor}
           onSelect={onChange}
