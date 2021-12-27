@@ -38,7 +38,6 @@ export const FreeSelector = (props: FreeSelectorProps) => {
           backgroundImage:
             "linear-gradient(transparent,black),linear-gradient(to right,white,transparent)",
           borderRadius: "4px",
-          userSelect: "none",
           position: "relative",
           cursor: "crosshair",
         }}

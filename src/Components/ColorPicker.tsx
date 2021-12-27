@@ -6,7 +6,8 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useCallback, useMemo } from "react";
+import React, { MouseEvent, useCallback, useMemo } from "react";
+import { Color } from "../Interfaces/Color";
 import {
   clamp,
   defaultColor,
@@ -35,18 +36,18 @@ interface ColorPickerProps {
 export const ColorPicker = (props: ColorPickerProps) => {
   const { color, colors, onChange, variant, sx } = props;
 
-  const parsedColor = useMemo(() => parseColor(color), [color]);
+  const parsedColor = useMemo((): Color => parseColor(color), [color]);
   const satCoords = useMemo(
-    () => getSaturationCoordinates(parsedColor),
+    (): [number, number] => getSaturationCoordinates(parsedColor),
     [parsedColor]
   );
   const hueCoords = useMemo(
-    () => getHueCoordinates(parsedColor),
+    (): number => getHueCoordinates(parsedColor),
     [parsedColor]
   );
 
   const handleRgbChange = useCallback(
-    (component, value) => {
+    (component: string, value: string): void => {
       const { r, g, b } = parsedColor.rgb;
 
       switch (component) {
@@ -67,8 +68,8 @@ export const ColorPicker = (props: ColorPickerProps) => {
   );
 
   const handleSaturationChange = useCallback(
-    (event) => {
-      const { width, height, left, top } = event.target.getBoundingClientRect();
+    (event: MouseEvent<HTMLElement>): void => {
+      const { width, height, left, top } = event.currentTarget.getBoundingClientRect();
 
       const x = clamp(event.clientX - left, 0, width);
       const y = clamp(event.clientY - top, 0, height);
@@ -84,10 +85,10 @@ export const ColorPicker = (props: ColorPickerProps) => {
   );
 
   const handleHueChange = useCallback(
-    (event) => {
-      const { width, left } = event.target.getBoundingClientRect();
+    (event: MouseEvent<HTMLElement>): void => {
+      const { width, left } = event.currentTarget.getBoundingClientRect();
       const x = clamp(event.clientX - left, 0, width);
-      const h = Math.floor((x / width) * 360);
+      const h = Math.round((x / width) * 360);
 
       const hsl = `hsl(${h}, ${parsedColor?.hsl.s}, ${parsedColor?.hsl.l})`;
       const rgb = hslToRgb(hsl);
