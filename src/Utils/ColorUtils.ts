@@ -1,19 +1,9 @@
 import {
-  amber,
-  blue,
-  cyan,
-  green,
-  grey,
-  indigo,
-  lime,
-  orange,
-  pink,
-  purple,
-  red,
-  teal,
+  amber, blue, cyan, green, grey, indigo, lime, orange, pink, purple, red, teal
 } from "@mui/material/colors";
 import { hexToRgb, hslToRgb, rgbToHex } from "@mui/system";
-import { Color, ColorHSL, ColorRGB } from "../Interfaces/Color";
+
+import { Color, ColorHSL, ColorRGB } from "../interfaces/Color";
 
 export const defaultColor = "#181d23";
 
@@ -76,6 +66,8 @@ export function parseColor(color: string): Color {
   var hex = "";
   var rgb = "";
   var hsl = "";
+
+  console.log("parse", color);
 
   if (color.slice(0, 1) === "#") {
     hex = color;
@@ -153,7 +145,7 @@ export function rgbToHsl(color: string): string {
   return `hsl(${h}, ${s}%, ${l}%)`;
 }
 
-export function rgbToHsv(color: string): { h: number, s: number, v: number } {
+export function rgbToHsv(color: string): { h: number; s: number; v: number } {
   var { r, g, b } = getRgb(color);
   r /= 255;
   g /= 255;

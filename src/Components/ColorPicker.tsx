@@ -1,42 +1,37 @@
-import {
-  Box,
-  hslToRgb,
-  Paper,
-  rgbToHex,
-  Stack,
-  TextField,
-} from "@mui/material";
-import React, { MouseEvent, useCallback, useMemo } from "react";
-import { Color } from "../Interfaces/Color";
-import {
-  clamp,
-  defaultColor,
-  defaultColors,
-  getHueCoordinates,
-  getSaturationCoordinates,
-  hsvToRgb,
-  parseColor,
-} from "../Utils/ColorUtils";
-import { FreeSelector } from "./Options/FreeSelector";
-import { PredefinedSelector } from "./Options/PredefinedSelector";
+import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 
-export enum ColorPickerVariant {
-  Predefined = "predefined",
-  Free = "free",
-}
+import { Box, BoxProps, Grid, hslToRgb, Paper, rgbToHex, Stack, TextField } from "@mui/material";
+
+import { Color } from "../interfaces/Color";
+import {
+  clamp, defaultColor, defaultColors, getHueCoordinates, getSaturationCoordinates, hsvToRgb,
+  parseColor
+} from "../utils/ColorUtils";
+import { FreeSelector } from "./options/FreeSelector";
+import { PredefinedSelector } from "./options/PredefinedSelector";
+
+export type ColorPickerVariant = "predefined" | "free";
 
 interface ColorPickerProps {
-  color: string;
+  initialColor?: string;
+  color?: string;
   colors: Array<string>;
-  onChange(color: string, keepOpen: boolean): void;
+  onChange(color: string): void;
   variant: ColorPickerVariant;
-  sx: Object;
-};
+  sx: BoxProps["sx"];
+}
 
 export const ColorPicker = (props: ColorPickerProps) => {
-  const { color, colors, onChange, variant, sx } = props;
+  const { color, initialColor, colors, onChange, variant, sx } = props;
 
-  const parsedColor = useMemo((): Color => parseColor(color), [color]);
+  const [uncontrolledColor, setUncontrolledColor] = useState(
+    initialColor || defaultColor
+  );
+
+  const parsedColor = useMemo(
+    (): Color => parseColor(color || uncontrolledColor),
+    [color, uncontrolledColor]
+  );
   const satCoords = useMemo(
     (): [number, number] => getSaturationCoordinates(parsedColor),
     [parsedColor]
@@ -46,19 +41,24 @@ export const ColorPicker = (props: ColorPickerProps) => {
     [parsedColor]
   );
 
+  function handleChange(color: string): void {
+    setUncontrolledColor(color);
+    onChange(color);
+  }
+
   const handleRgbChange = useCallback(
     (component: string, value: string): void => {
       const { r, g, b } = parsedColor.rgb;
 
       switch (component) {
         case "r":
-          onChange(rgbToHex(`rgb(${value ?? 0}, ${g}, ${b})`), true);
+          handleChange(rgbToHex(`rgb(${value ?? 0}, ${g}, ${b})`));
           return;
         case "g":
-          onChange(rgbToHex(`rgb(${r}, ${value ?? 0}, ${b})`), true);
+          handleChange(rgbToHex(`rgb(${r}, ${value ?? 0}, ${b})`));
           return;
         case "b":
-          onChange(rgbToHex(`rgb(${r}, ${g}, ${value ?? 0})`), true);
+          handleChange(rgbToHex(`rgb(${r}, ${g}, ${value ?? 0})`));
           return;
         default:
           return;
@@ -69,7 +69,8 @@ export const ColorPicker = (props: ColorPickerProps) => {
 
   const handleSaturationChange = useCallback(
     (event: MouseEvent<HTMLElement>): void => {
-      const { width, height, left, top } = event.currentTarget.getBoundingClientRect();
+      const { width, height, left, top } =
+        event.currentTarget.getBoundingClientRect();
 
       const x = clamp(event.clientX - left, 0, width);
       const y = clamp(event.clientY - top, 0, height);
@@ -79,7 +80,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
 
       const rgb = hsvToRgb(parsedColor?.hsl.h, s, v);
 
-      onChange(rgbToHex(rgb), true);
+      handleChange(rgbToHex(rgb));
     },
     [parsedColor?.hsl.h]
   );
@@ -93,7 +94,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
       const hsl = `hsl(${h}, ${parsedColor?.hsl.s}, ${parsedColor?.hsl.l})`;
       const rgb = hslToRgb(hsl);
 
-      onChange(rgbToHex(rgb), true);
+      handleChange(rgbToHex(rgb));
     },
     [parsedColor?.hsl.s, parsedColor?.hsl.l]
   );
@@ -127,67 +128,86 @@ export const ColorPicker = (props: ColorPickerProps) => {
         />
       )}
 
-      <Stack direction="row" justifyContent="space-between">
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Paper
-            elevation={1}
-            sx={{
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
-              background: color,
-            }}
-          />
-          <TextField
-            size="small"
-            label="Hex"
-            value={parsedColor?.hex.value}
-            onChange={(event) => {
-              var val = event.target.value;
-              if (val?.slice(0, 1) !== "#") {
-                val = "#" + val;
-              }
-              onChange(val, true);
-            }}
-            sx={{ width: "95px" }}
-          />
-        </Stack>
+      <Grid container spacing={1} justifyContent="space-between">
+        <Grid
+          item
+          container
+          spacing={1}
+          display="flex"
+          alignItems="center"
+          xs={12}
+          md={6}
+        >
+          <Grid item>
+            <Paper
+              elevation={1}
+              sx={{
+                width: "25px",
+                height: "25px",
+                borderRadius: "50%",
+                background: parsedColor.hex.value,
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              size="small"
+              label="Hex"
+              value={parsedColor?.hex.value}
+              onChange={(event) => {
+                var val = event.target.value;
+                console.log("text", val);
+                if (val?.slice(0, 1) !== "#") {
+                  val = "#" + val;
+                }
+                handleChange(val);
+              }}
+              sx={{ width: "95px" }}
+            />
+          </Grid>
+        </Grid>
 
-        <Stack direction="row" spacing={1}>
-          <TextField
-            size="small"
-            label="R"
-            value={parsedColor.rgb.r}
-            onChange={(event) => handleRgbChange("r", event.target.value)}
-            sx={{ width: "60px" }}
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          />
-          <TextField
-            size="small"
-            label="G"
-            value={parsedColor.rgb.g}
-            onChange={(event) => handleRgbChange("g", event.target.value)}
-            sx={{ width: "60px" }}
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          />
-          <TextField
-            size="small"
-            label="B"
-            value={parsedColor.rgb.b}
-            onChange={(event) => handleRgbChange("b", event.target.value)}
-            sx={{ width: "60px" }}
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          />
-        </Stack>
-      </Stack>
+        <Grid item container spacing={1} display="flex" xs={12} md={6}>
+          <Grid item>
+            <TextField
+              size="small"
+              label="R"
+              value={parsedColor.rgb.r}
+              onChange={(event) => handleRgbChange("r", event.target.value)}
+              sx={{ width: "60px" }}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              size="small"
+              label="G"
+              value={parsedColor.rgb.g}
+              onChange={(event) => handleRgbChange("g", event.target.value)}
+              sx={{ width: "60px" }}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              size="small"
+              label="B"
+              value={parsedColor.rgb.b}
+              onChange={(event) => handleRgbChange("b", event.target.value)}
+              sx={{ width: "60px" }}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
     </Box>
   );
-}
+};
 
 ColorPicker.defaultProps = {
-  color: defaultColor,
+  initialColor: defaultColor,
   colors: defaultColors,
-  onChange: (color: string, keepOpen: boolean) => {},
+  onChange: (color: string) => {},
   variant: "predefined",
   sx: {},
 };

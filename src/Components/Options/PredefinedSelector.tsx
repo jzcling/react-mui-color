@@ -1,12 +1,14 @@
-import { Box, Button, Paper } from "@mui/material";
 import React from "react";
-import { Color } from "../../Interfaces/Color";
+
+import { Box, Button, Paper } from "@mui/material";
+
+import { Color } from "../../interfaces/Color";
 
 interface PredefinedSelectorProps {
   parsedColor: Color;
   colors: Array<string>;
   onSelect(color: string, keepOpen: boolean): void;
-};
+}
 
 export const PredefinedSelector = (props: PredefinedSelectorProps) => {
   const { parsedColor, colors, onSelect } = props;
@@ -58,4 +60,4 @@ export const PredefinedSelector = (props: PredefinedSelectorProps) => {
       ))}
     </Box>
   );
-}
+};

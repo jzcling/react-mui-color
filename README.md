@@ -28,11 +28,9 @@ import { ColorPicker } from "react-mui-color";
 export default function MyColorPicker(props) {
   const [color, setColor] = useState("#ffffff");
 
-  const handleFontColorChange = (color, keepOpen = false) => {
+  const handleFontColorChange = (color) => {
     setColor(color);
-    if (!keepOpen) {
-      // handle close picker
-    }
+    // handle close parent if required
   };
 
   return (
@@ -53,13 +51,14 @@ export default function MyColorPicker(props) {
 
 ## Props
 
-| Prop     | Type     | Default                   | Description                                                                                    |
-| -------- | -------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| variant  | `string` | `predefined`              | `predefined` or `free`                                                                         |
-| color    | `string` | `181d23`                  | Hex, RGB or HSL color value in string.                                                         |
-| colors   | `array`  | See below                 | Array of colors to be displayed as options in predefined picker. Not used for `variant="free"` |
-| onChange | `func`   | `(color, keepOpen) => {}` | Method to handle color selection                                                               |
-| sx       | `object` | `{}`                      | Material UI system prop to pass, mainly for styling                                            |
+| Prop         | Type     | Default         | Description                                                                                    |
+| ------------ | -------- | --------------- | ---------------------------------------------------------------------------------------------- |
+| variant      | `string` | `predefined`    | `predefined` or `free`                                                                         |
+| initialColor | `string` | `#181d23`       | Hex, RGB or HSL color value in string.                                                         |
+| color        | `string` | undefined       | Hex, RGB or HSL color value in string. If undefined, component is uncontrolled                 |
+| colors       | `array`  | See below       | Array of colors to be displayed as options in predefined picker. Not used for `variant="free"` |
+| onChange     | `func`   | `(color) => {}` | Method to handle color selection                                                               |
+| sx           | `object` | `{}`            | Material UI system prop to pass, mainly for styling                                            |
 
 ## Predefined Material Design Colors
 
