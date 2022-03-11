@@ -156,7 +156,6 @@ export const ColorPicker = (props: ColorPickerProps) => {
               value={parsedColor?.hex.value}
               onChange={(event) => {
                 var val = event.target.value;
-                console.log("text", val);
                 if (val?.slice(0, 1) !== "#") {
                   val = "#" + val;
                 }

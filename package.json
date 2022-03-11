@@ -1,6 +1,6 @@
 {
   "name": "react-mui-color",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "scripts": {
     "build": "rm -rf dist && NODE_ENV=production rollup -c"
   },

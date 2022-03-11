@@ -67,8 +67,6 @@ export function parseColor(color: string): Color {
   var rgb = "";
   var hsl = "";
 
-  console.log("parse", color);
-
   if (color.slice(0, 1) === "#") {
     hex = color;
     rgb = hexToRgb(color);
